@@ -1,0 +1,47 @@
+{% extends 'form/base.html' %} {% block content %}
+<div class="row">
+	<div class="col-sm-4">
+		<h1 class="text-center">Add new Student</h1>
+		<form method="post">
+			{% csrf_token %} {{form.as_p}}
+			<input type="submit" class="btn btn-success" />
+		</form>
+	</div>
+
+	<div class="col-sm-7 offset-1">
+		<h1 class="text-center alert alert-info">All Student data</h1>
+		{% if stu %}
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<td scope="col">ID</td>
+					<td scope="col">Name</td>
+					<td scope="col">Email</td>
+					<td scope="col">Passoward</td>
+				</tr>
+			</thead>
+			<tbody>
+				{% for s in stu %}
+				<tr>
+					<td scope="col">{{s.id}}</td>
+					<td scope="col">{{s.name}}</td>
+					<td scope="col">{{s.email}}</td>
+					<td scope="col">{{s.password}}</td>
+					<td>
+						<a href={% url 'updatedata' s.id %} class="btn btn-warning btn-sm"> Edit</a>
+						<form action= {% url 'deletedata' s.id %} method='post' class='d-inline'>
+							{% csrf_token %}
+                            <input class="btn btn-danger btn-sm" type='submit' value='Delete'/>
+                        </form>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		{% else %}
+		<h1 class="text-center">No Student data</h1>
+		{% endif %}
+	</div>
+</div>
+
+{% endblock content %}
